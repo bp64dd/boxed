@@ -116,22 +116,7 @@ class Robot:
         if game_over: return
 
         if random.randint(0, 4) == 0:
-            direction = random.randint(0, 3)
-            tile_x = self.x // TILE_SIZE
-            tile_y = self.y // TILE_SIZE
-
-            if direction == 0 and tile_x + 1 < len(current_map[tile_y]) and not current_map[tile_y][tile_x + 1] in SOLID_TILES:
-                self.x += TILE_SIZE
-                self.sprite = ROBOT_RIGHT_SPRITE
-            elif direction == 1 and tile_x > 0 and not current_map[tile_y][tile_x - 1] in SOLID_TILES:
-                self.x -= TILE_SIZE
-                self.sprite = ROBOT_LEFT_SPRITE
-            elif direction == 2 and tile_y + 1 < len(current_map) and not current_map[tile_y + 1][tile_x] in SOLID_TILES:
-                self.y += TILE_SIZE
-                self.sprite = ROBOT_DOWN_SPRITE
-            elif direction == 3 and tile_y > 0 and not current_map[tile_y - 1][tile_x] in SOLID_TILES:
-                self.y -= TILE_SIZE
-                self.sprite = ROBOT_UP_SPRITE
+            self.move_randomly()
         else:
             if px > self.x and not current_map[self.y // TILE_SIZE][(self.x + TILE_SIZE) // TILE_SIZE] in SOLID_TILES:
                 self.x += TILE_SIZE
@@ -145,12 +130,38 @@ class Robot:
             elif py < self.y and not current_map[(self.y - TILE_SIZE) // TILE_SIZE][self.x // TILE_SIZE] in SOLID_TILES:
                 self.y -= TILE_SIZE
                 self.sprite = ROBOT_UP_SPRITE
+            else:
+                self.move_randomly()
 
         if self.x == px and self.y == py:
             lose_game()
 
     def draw(self):
         screen.blit(self.sprite, (self.x, self.y))
+
+    def move_randomly(self):
+        moved = False
+        while not moved:
+            direction = random.randint(0, 3)
+            tile_x = self.x // TILE_SIZE
+            tile_y = self.y // TILE_SIZE
+        
+            if direction == 0 and tile_x + 1 < len(current_map[tile_y]) and not current_map[tile_y][tile_x + 1] in SOLID_TILES:
+                self.x += TILE_SIZE
+                self.sprite = ROBOT_RIGHT_SPRITE
+                moved = True
+            elif direction == 1 and tile_x > 0 and not current_map[tile_y][tile_x - 1] in SOLID_TILES:
+                self.x -= TILE_SIZE
+                self.sprite = ROBOT_LEFT_SPRITE
+                moved = True
+            elif direction == 2 and tile_y + 1 < len(current_map) and not current_map[tile_y + 1][tile_x] in SOLID_TILES:
+                self.y += TILE_SIZE
+                self.sprite = ROBOT_DOWN_SPRITE
+                moved = True
+            elif direction == 3 and tile_y > 0 and not current_map[tile_y - 1][tile_x] in SOLID_TILES:
+                self.y -= TILE_SIZE
+                self.sprite = ROBOT_UP_SPRITE
+                moved = True
 
 class PointPeg:
     def __init__(self, x, y):
@@ -239,7 +250,7 @@ def move_player(dx, dy):
         CANT_MOVE_SOUND.play()
 
 def draw_text(text, x, y, size=15):
-    font = pygame.font.SysFont("Comic Sans MS", size)
+    font = pygame.font.Font("fonts/Ldfcomicsans.ttf", size)
     text_surface = font.render(text, True, "white")
     screen.blit(text_surface, (x, y))
 
@@ -288,6 +299,7 @@ player_won = False
 init_game()
 
 screen.blit(pygame.image.load("sprites/splash.png"), (0, 0))
+draw_text("An aMAZEing game!", 550, 400)
 pygame.display.flip()
 pygame.time.delay(3000)
 
@@ -321,7 +333,7 @@ while game_running:
             draw_text(f"Moves: {moves}", 10, 575, 16)
     else:
         draw_text(end_message, 10, 575, 16)
-    draw_text("Score: " + str(score) + " - Level " + str(current_level+1), 634, 575, 16)
+    draw_text("Boxes to collect " + str(boxes_to_collect) + " - Score: " + str(score) + " - Level " + str(current_level+1), 500, 575, 16)
 
     # Check pygame events (keys and window closing)
     for event in pygame.event.get():

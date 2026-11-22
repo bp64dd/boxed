@@ -100,7 +100,7 @@ def draw_level_grid():
             pygame.draw.rect(screen, (18, 18, 18), rect, 1)
 
 def draw_text(text, x, y, size=15):
-    font = pygame.font.SysFont("Comic Sans MS", size)
+    font = pygame.font.Font("fonts/Ldfcomicsans.ttf", size)
     text_surface = font.render(text, True, "white")
     screen.blit(text_surface, (x, y))
 
