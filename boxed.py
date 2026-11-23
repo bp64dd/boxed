@@ -89,8 +89,8 @@ ROBOT_RIGHT_SPRITE.set_colorkey("white")
 POINT_SPRITE.set_colorkey("white")
 
 # Sounds constants
-WIN_SOUND = pygame.mixer.Sound("sounds/FANFARE.WAV")
-LOSE_SOUND = pygame.mixer.Sound("sounds/WEDIED.WAV")
+WIN_SOUND = pygame.mixer.Sound("sounds/win.wav")
+LOSE_SOUND = pygame.mixer.Sound("sounds/lose.wav")
 CANT_MOVE_SOUND = pygame.mixer.Sound("sounds/cantmove.wav")
 MOVE_SOUND = pygame.mixer.Sound("sounds/move.wav")
 BOX_SOUND = pygame.mixer.Sound("sounds/box.wav")
@@ -133,8 +133,7 @@ class Robot:
             else:
                 self.move_randomly()
 
-        if self.x == px and self.y == py:
-            lose_game()
+        self.check_collision(px, py)
 
     def draw(self):
         screen.blit(self.sprite, (self.x, self.y))
@@ -162,6 +161,10 @@ class Robot:
                 self.y -= TILE_SIZE
                 self.sprite = ROBOT_UP_SPRITE
                 moved = True
+    
+    def check_collision(self, other_x, other_y):
+        if self.x == other_x and self.y == other_y:
+            lose_game()
 
 class PointPeg:
     def __init__(self, x, y):
@@ -240,12 +243,13 @@ def move_player(dx, dy):
         py = new_y
         moves += 1
         MOVE_SOUND.play()
-        for robot in robots: 
-            robot.move()
         for peg in point_pegs:
             peg.check_collision(px, py)
         for box in boxes:
             box.check_collision(px, py)
+        for robot in robots: 
+            robot.check_collision(px, py)
+            robot.move()
     else:
         CANT_MOVE_SOUND.play()
 
@@ -300,8 +304,13 @@ init_game()
 
 screen.blit(pygame.image.load("sprites/splash.png"), (0, 0))
 draw_text("An aMAZEing game!", 550, 400)
+draw_text("Version 1.0", 5, 5)
 pygame.display.flip()
 pygame.time.delay(3000)
+
+pygame.mixer.music.load("music/puzzleitnes.ogg")
+pygame.mixer.music.set_volume(0.5)
+pygame.mixer.music.play(loops=-1)
 
 # Main loop
 game_running = True
@@ -328,12 +337,11 @@ while game_running:
     # Draw texts
     if not game_over:
         if moves == 0:
-            draw_text("Press arrow keys to move", 10, 575, 16)
+            draw_text("Press arrow keys to move", 10, 578, 16)
         else:
-            draw_text(f"Moves: {moves}", 10, 575, 16)
+            draw_text("Moves: " + str(moves) + " - Boxes to collect: " + str(boxes_to_collect) + " - Score: " + str(score) + " - Level " + str(current_level+1), 10, 578, 16)
     else:
-        draw_text(end_message, 10, 575, 16)
-    draw_text("Boxes to collect " + str(boxes_to_collect) + " - Score: " + str(score) + " - Level " + str(current_level+1), 500, 575, 16)
+        draw_text(end_message, 10, 578, 16)
 
     # Check pygame events (keys and window closing)
     for event in pygame.event.get():

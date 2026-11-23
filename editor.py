@@ -139,6 +139,7 @@ while running:
                     current_tile = 0
             if event.key == pygame.K_n:
                 MAP = NEW_MAP
+                pygame.display.set_caption("Boxed - Level Editor - Version 1.0")
             
             if event.key == pygame.K_s:
                 if check_level_validity():
@@ -159,6 +160,7 @@ while running:
                         if len(loaded_map) == GRID_HEIGHT and all(len(row) == GRID_WIDTH for row in loaded_map):
                             MAP = loaded_map
                             messagebox.showinfo("Loaded", "Level loaded successfully!")
+                            pygame.display.set_caption("Boxed - Level Editor - Version 1.0 - " + file_path)
                         else:
                             messagebox.showerror("Error", "This is not a valid Boxed level")
 
