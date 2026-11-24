@@ -8,10 +8,10 @@ To run _Boxed_, you need to install Python on your computer, and the install pyg
 
 You might need to install tkinter to use the built-in level editor (_editor.py_). This may vary depending on the operating system or distribution you are using.
 
-After that, run `boxed.py`
+After that, run `boxed.py` to play the game
 
 ## How to play
-Boxed_ is a game where you need to guide Boxy through the exit of every maze. You do this by using the `Arrow Keys` on the keyboard. However, when starting a level, the exit may be locked; to unlock it, collect all the boxes in a level. There are also Point Pegs present in the level that increase your score
+_Boxed_ is a game where you need to guide Boxy through the exit of every maze. You do this by using the `Arrow Keys` on the keyboard. However, when starting a level, the exit may be locked; to unlock it, collect all the boxes in a level. There are also Point Pegs present in the level that increase your score
 
 In the mazes you may find Spikeballs and Robots; Spikeballs are static obstacles, but Robots can follow Boxy. Be sure to avoid them, or you need to play the level from the start
 
