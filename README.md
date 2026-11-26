@@ -4,7 +4,9 @@ A 2D puzzle game, similar to [_Chip's Challenge (1989)_](https://en.wikipedia.or
 _Boxed_ is a little topdown puzzle game where you control Boxy, a box collector, towards a series of mazes with enemies and traps
 
 ## Requiements
-To run _Boxed_, you need to install Python on your computer, and the install pygame CE by typing in a terminal window `pip install pygame-ce`, or `pip3 install pygame-ce` if you're using a Mac or a Linux system.
+First of all, download the latest stable release from the _Releases_ tab and make sure that Python 3 is installed on your computer. To install it, head over to the [_Python Website_](https://www.python.org).
+
+To run _Boxed_, you need to install Pygame CE by typing in a terminal window `pip install pygame-ce`, or `pip3 install pygame-ce` if you're using a Mac or a Linux system.
 
 You might need to install tkinter to use the built-in level editor (_editor.py_). This may vary depending on the operating system or distribution you are using.
 

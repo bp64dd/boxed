@@ -230,9 +230,12 @@ def move_player(dx, dy):
     new_x = px + dx
     new_y = py + dy
 
-    # Check for collisions
+    # Collisions
+
+    # Hazards
     if current_map[new_y // TILE_SIZE][new_x // TILE_SIZE] in HAZARD_TILES:
         lose_game()
+    # Exit
     elif current_map[new_y // TILE_SIZE][new_x // TILE_SIZE] == "E":
         end_message = "Nicely done, you won!!"
         game_over = True
@@ -250,6 +253,7 @@ def move_player(dx, dy):
         for robot in robots: 
             robot.check_collision(px, py)
             robot.move()
+    # Solid tile
     else:
         CANT_MOVE_SOUND.play()
 
@@ -302,6 +306,7 @@ dt = 0
 player_won = False
 init_game()
 
+# Splash Screen Logic
 screen.blit(pygame.image.load("sprites/splash.png"), (0, 0))
 draw_text("An aMAZEing game!", 550, 400)
 draw_text("Version 1.0", 5, 5)
@@ -363,13 +368,15 @@ while game_running:
         if event.type == pygame.QUIT: # Player wants to close the window?
             game_running = False # Exit the main loop, end of the program
 
+    # Restart Timer Loop
     if game_over:
         restart_timer += dt / 1000
         if restart_timer >= restart_timer_value:
             init_game()
 
     # Update the game window
-    pygame.display.update()
+    pygame.display.flip()
     dt = clock.tick(FPS)
 
+# Quit pygame
 pygame.quit()
